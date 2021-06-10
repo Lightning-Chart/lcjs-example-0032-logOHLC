@@ -1,6 +1,6 @@
-# OHLC with Logarithmic Y Axis
+# JavaScript OHLC Chart with Logarithmic Y Axis
 
-![OHLC with Logarithmic Y Axis](logOHLC.png)
+![JavaScript OHLC Chart with Logarithmic Y Axis](logOHLC.png)
 
 This demo application belongs to the set of examples for LightningChart JS, data visualization library for JavaScript.
 
