@@ -1,5 +1,5 @@
 /*
- * LightningChart JS Example that showcases TODO
+ * LightningChart JS Example that showcases OHLC series with logarithmic Y Axis.
  */
 // Import LightningChartJS
 const lcjs = require('@arction/lcjs')
@@ -9,11 +9,7 @@ const {
     lightningChart,
     OHLCSeriesTypes,
     AxisTickStrategies,
-    SolidLine,
-    SolidFill,
-    ColorRGBA,
     LegendBoxBuilders,
-    UIOrigins,
     Themes
 } = lcjs
 
@@ -24,7 +20,7 @@ const {
 
 // Initialize chart.
 const chart = lightningChart().ChartXY({
-    // theme: Themes.dark
+    // theme: Themes.darkGold
     // Specify Y Axis as logarithmic.
     defaultAxisY: {
         type: 'logarithmic',
@@ -83,10 +79,6 @@ Promise.all([
         xAxis.addConstantLine()
             .setName('Price boom start')
             .setValue(priceBoomStartX * 1000 * 60 * 60)
-            .setStrokeStyle(new SolidLine({
-                thickness: 5,
-                fillStyle: new SolidFill({ color: ColorRGBA(0, 255, 0, 50) })
-            }))
             .setMouseInteractions(false)
 
         // Fit X Axis immediately.
@@ -94,5 +86,10 @@ Promise.all([
 
         // Add LegendBox.
         const legend = chart.addLegendBox(LegendBoxBuilders.VerticalLegendBox)
+            // Dispose example UI elements automatically if they take too much space. This is to avoid bad UI on mobile / etc. devices.
+            .setAutoDispose({
+                type: 'max-width',
+                maxWidth: 0.20,
+            })
             .add(chart)
     })
