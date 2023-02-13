@@ -4,45 +4,39 @@
 // Import LightningChartJS
 const lcjs = require('@arction/lcjs')
 
+// Import xydata
+const xydata = require('@arction/xydata')
+
 // Extract required parts from LightningChartJS.
-const {
-    lightningChart,
-    OHLCSeriesTypes,
-    AxisTickStrategies,
-    LegendBoxBuilders,
-    Themes
-} = lcjs
+const { lightningChart, OHLCSeriesTypes, AxisTickStrategies, LegendBoxBuilders, Themes } = lcjs
 
 // Import data-generator from 'xydata'-library.
-const {
-    createProgressiveTraceGenerator
-} = require('@arction/xydata')
+const { createProgressiveTraceGenerator } = xydata
 
 // Initialize chart.
-const chart = lightningChart().ChartXY({
-    // theme: Themes.darkGold
-    // Specify Y Axis as logarithmic.
-    defaultAxisY: {
-        type: 'logarithmic',
-        base: '10',
-    }
-})
+const chart = lightningChart()
+    .ChartXY({
+        // theme: Themes.darkGold
+        // Specify Y Axis as logarithmic.
+        defaultAxisY: {
+            type: 'logarithmic',
+            base: '10',
+        },
+    })
     .setTitle('OHLC Chart with Logarithmic Y Axis')
 
 // Configure DateTime Axis X.
 const dateOrigin = new Date(2013, 8, 16) //
-const xAxis = chart.getDefaultAxisX()
-    .setTickStrategy(AxisTickStrategies.DateTime, (tickStrategy) => tickStrategy.setDateOrigin(dateOrigin))
+const xAxis = chart.getDefaultAxisX().setTickStrategy(AxisTickStrategies.DateTime, (tickStrategy) => tickStrategy.setDateOrigin(dateOrigin))
 
-const yAxis = chart.getDefaultAxisY()
-    .setTitle('Stock price (€)')
+const yAxis = chart.getDefaultAxisY().setTitle('Stock price (€)')
 
 // Generate progressive XY data.
-const y1 =  1000 * (0.5 + Math.random())
+const y1 = 1000 * (0.5 + Math.random())
 const y2 = 10000 * (0.5 + Math.random())
 const priceBoomStartX = 3216
 const priceBoomEndX = 5796
-const flipAtY = (limitY, y) => y < limitY ? limitY + (limitY - y) : y
+const flipAtY = (limitY, y) => (y < limitY ? limitY + (limitY - y) : y)
 Promise.all([
     createProgressiveTraceGenerator()
         .setNumberOfPoints(15000)
@@ -53,7 +47,7 @@ Promise.all([
         .setNumberOfPoints(15000)
         .generate()
         .toPromise()
-        .then((data) => data.map((xy) => ({ x: xy.x, y: y2 + flipAtY(y2 * 0.75, xy.y * 250) })))
+        .then((data) => data.map((xy) => ({ x: xy.x, y: y2 + flipAtY(y2 * 0.75, xy.y * 250) }))),
 ])
     .then((dataSets) => {
         // Merge two data sets into one by interpolating from data set 1 to data set 2, simulating a "price boom".
@@ -70,13 +64,15 @@ Promise.all([
     .then((data) => data.map((xy) => ({ x: xy.x * 1000 * 60 * 60, y: xy.y })))
     .then((data) => {
         // Package XY points into OHLC series automatically.
-        const series = chart.addOHLCSeries({ seriesConstructor: OHLCSeriesTypes.AutomaticPacking })
+        const series = chart
+            .addOHLCSeries({ seriesConstructor: OHLCSeriesTypes.AutomaticPacking })
             .setName('Stock price')
             .setPackingResolution(1000 * 60 * 60)
             .add(data)
 
         // Add marker for price boom start.
-        xAxis.addConstantLine()
+        xAxis
+            .addConstantLine()
             .setName('Price boom start')
             .setValue(priceBoomStartX * 1000 * 60 * 60)
             .setMouseInteractions(false)
@@ -85,11 +81,12 @@ Promise.all([
         xAxis.fit()
 
         // Add LegendBox.
-        const legend = chart.addLegendBox(LegendBoxBuilders.VerticalLegendBox)
+        const legend = chart
+            .addLegendBox(LegendBoxBuilders.VerticalLegendBox)
             // Dispose example UI elements automatically if they take too much space. This is to avoid bad UI on mobile / etc. devices.
             .setAutoDispose({
                 type: 'max-width',
-                maxWidth: 0.20,
+                maxWidth: 0.2,
             })
             .add(chart)
     })
