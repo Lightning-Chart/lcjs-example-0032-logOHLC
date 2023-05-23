@@ -26,7 +26,8 @@ const chart = lightningChart()
     .setTitle('OHLC Chart with Logarithmic Y Axis')
 
 // Configure DateTime Axis X.
-const dateOrigin = new Date(2013, 8, 16) //
+const dateOrigin = new Date(2013, 8, 16)
+const dateOriginTime = dateOrigin.getTime()
 const xAxis = chart.getDefaultAxisX().setTickStrategy(AxisTickStrategies.DateTime, (tickStrategy) => tickStrategy.setDateOrigin(dateOrigin))
 
 const yAxis = chart.getDefaultAxisY().setTitle('Stock price (€)')
@@ -60,8 +61,20 @@ Promise.all([
         })
         return data
     })
-    // Scale X step from [1] to 1 hour.
-    .then((data) => data.map((xy) => ({ x: xy.x * 1000 * 60 * 60, y: xy.y })))
+    // Map random generated data to start from a particular date and scale X step from [1] to 1 hour.
+    .then((data) =>
+        data.map((xy) => ({
+            x: dateOriginTime + xy.x * 1000 * 60 * 60,
+            y: xy.y,
+        })),
+    )
+    // When data origin is used (required for DateTime axis range smaller than 1 day), time coordinate has to be shifted by date origin.
+    .then((data) =>
+        data.map((p) => ({
+            x: p.x - dateOriginTime,
+            y: p.y,
+        })),
+    )
     .then((data) => {
         // Package XY points into OHLC series automatically.
         const series = chart

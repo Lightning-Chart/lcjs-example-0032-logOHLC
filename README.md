@@ -21,6 +21,9 @@ The demo can be used as an example or a seed project. Local execution requires t
 
 Example showcasing a _Candlesticks chart_ with a logarithmic Y Axis.
 
+**Please note that using LightningChart JS for Trading use cases requires a special license agreement.**
+For more information, please [contact us](https://lightningchart.com/contact/).
+
 
 ## API Links
 
@@ -48,5 +51,5 @@ Direct developer email support can be purchased through a [Support Plan][4] or b
 © LightningChart Ltd 2009-2022. All rights reserved.
 
 
-[XY cartesian chart]: https://lightningchart.com/lightningchart-js-api-documentation/v4.0.0/classes/ChartXY.html
+[XY cartesian chart]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/ChartXY.html
 
