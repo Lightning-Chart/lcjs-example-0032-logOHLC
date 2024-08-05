@@ -2,10 +2,10 @@
  * LightningChart JS Example that showcases OHLC series with logarithmic Y Axis.
  */
 // Import LightningChartJS
-const lcjs = require('@arction/lcjs')
+const lcjs = require('@lightningchart/lcjs')
 
 // Import xydata
-const xydata = require('@arction/xydata')
+const xydata = require('@lightningchart/xydata')
 
 // Extract required parts from LightningChartJS.
 const { lightningChart, OHLCSeriesTypes, AxisTickStrategies, LegendBoxBuilders, Themes } = lcjs
