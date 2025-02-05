@@ -90,7 +90,6 @@ Promise.all([
             .addConstantLine()
             .setName('Price boom start')
             .setValue(priceBoomStartX * 1000 * 60 * 60)
-            .setMouseInteractions(false)
 
         // Fit X Axis immediately.
         xAxis.fit()
