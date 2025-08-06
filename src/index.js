@@ -8,7 +8,7 @@ const lcjs = require('@lightningchart/lcjs')
 const xydata = require('@lightningchart/xydata')
 
 // Extract required parts from LightningChartJS.
-const { lightningChart, OHLCSeriesTypes, AxisTickStrategies, LegendBoxBuilders, Themes } = lcjs
+const { lightningChart, OHLCSeriesTypes, AxisTickStrategies, Themes } = lcjs
 
 // Import data-generator from 'xydata'-library.
 const { createProgressiveTraceGenerator } = xydata
@@ -93,14 +93,4 @@ Promise.all([
 
         // Fit X Axis immediately.
         xAxis.fit()
-
-        // Add LegendBox.
-        const legend = chart
-            .addLegendBox(LegendBoxBuilders.VerticalLegendBox)
-            // Dispose example UI elements automatically if they take too much space. This is to avoid bad UI on mobile / etc. devices.
-            .setAutoDispose({
-                type: 'max-width',
-                maxWidth: 0.2,
-            })
-            .add(chart)
     })
